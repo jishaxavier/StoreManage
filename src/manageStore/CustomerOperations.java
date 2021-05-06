@@ -13,92 +13,105 @@ import manageStore.Customer.GenderEnum;
 public class CustomerOperations {
 	private Customer customer;
 	private Billing bill;
+	double amount;
 	private Address customerAddr;
     private Map<String, Customer> custMap = new HashMap<String, Customer>();
-    List<Billing> listOfBills = new ArrayList<Billing>();	//---List of Bills
+    
 	Set<String> custIDSet = new HashSet<String>();			//---List of customer id
 
-    public void addCustomer(Customer customer) {
+    public void addCustomer(Customer customer) {						// --- ADD CUSTOMER ---
     	//add customer to hashmap, using customer id as the key 
     	custMap.put(customer.getCustID(), customer);
     }
    
-    public void updateCustomer(Customer customer) {
-    	//add customer to hashmap
-    	///using customer id as the key 
+    public Customer getCustomer(String custID) {							// ---GET CUSTOMER-----
+		customer = custMap.get(custID);
+    	return customer;
+	}
+    public void updateCustAddrCity(String custID, String city) {		// --- UPDATE ADDRESS CITY ---
+    	//add customer to hashmap,using customer id as the key 
+    	custMap.get(custID).getCustomerAddr().setCity(city);
+    	System.out.println("Updated Address: ");
+    	custMap.get(custID).getCustomerAddr().getAddress();
+    }
+    
+    public void updateCustAddrState(String custID, String state) {		// --- UPDATE ADDRESS STATE ---
+    	//add customer to hashmap,using customer id as the key 
+    	custMap.get(custID).getCustomerAddr().setState(state);
+    	System.out.println("Updated Address: ");
+    	custMap.get(custID).getCustomerAddr().getAddress();
+    }
+    
+    public void updateCustAddrCountry(String custID, String country) {		// --- UPDATE ADDRESS COUNTRY ---
+    	//add customer to hashmap,using customer id as the key 
+    	custMap.get(custID).getCustomerAddr().setCountry(country);
+    	System.out.println("Updated Address: ");
+    	custMap.get(custID).getCustomerAddr().getAddress();
     }
    
-    public double addCustomerBill(String customerId, Billing bill){
-		   return 0;
-	}
-	
-    public void getBill() {							//----Get Bill details ------
-		for(int i=0; i<listOfBills.size(); i++) {
-			bill.getBill();
-		}
+    public void addCustomerBill(String custID, Billing bill){			// ---- ADD BILL ---
+    	custMap.get(custID).setBill(bill);
+    	
 	}
     
-    public void listAllBills() {					//----Get List of Bill----
-		for(int k=0; k<listOfBills.size();k++) {
-			listOfBills.get(k).getBill();
+    public double totalAmountOwed(String custID) {							// ---- RETURNS TOTAL AMOUNT OWED ---
+    	double totAmt=0.0;
+    	for (Map.Entry<String,Customer> element: custMap.entrySet()) {
+    		totAmt = totAmt + element.getValue().getBill().getBillAmount(); 	
+    	}
+    	System.out.println("Total Amount owed: "+totAmt);
+    	return totAmt;
+    }
+	
+    public double getBillAmount(String custID, String billID) {							//----Get Bill details ------
+    	List<Billing> listOBills = custMap.get(custID).getListOfBills(custID);
+    	
+    	//custMap.get(custID).getBill().getBillD();
+    	for(int i=0; i<listOBills.size(); i++) {
+			if(listOBills.get(i).toString().equalsIgnoreCase(billID)) {
+				amount = listOBills.get(i).getBillAmount();
+			}
 		}
+    	return amount;
 	}
     
-    public void setBill(Billing bill) {				//----Add bills to existing customer----
-		this.bill = bill;
-		listOfBills.add(this.bill);
+    public List<Billing> getListOfAllBills(String custID){					//----Get List of Bill----
+		return custMap.get(custID).getListOfBills(custID);
 	}
-	
-	public List<Billing> getListOfBills() {			//----Get List of Bills----
-		return listOfBills;
-	}
-
-	public void setListOfBills(List<Billing> listOfBills) {		//---Set List of Bills---
-		this.listOfBills = listOfBills;
-	}
-	
+    
     public List<Customer> findByLocation(String location){
 		   return null;
 	}
 	
-    public void updateAddress(Address addr) {			//---Update Address----
-		setCustomerAddr(addr);
-	}
-	
-	public void getCustomer() {							//---Get Customer-----
-		
-		System.out.println("Customer Id: "+custID);
-		System.out.println("Customer Name: "+fname+" "+lname);
-	}
 	public void billPaidCust() {
 		customer.getBill();;
 	}
 	
-	public void printAllCustomers() {
-		Iterator itr = custIDSet.iterator();
-		while(itr.hasNext()) {
-			System.out.println(custIDSet.toString());
-		}	
-		
-	}
-    public void updateBill(String checkbillID, double amountPaid) {		//---Update bill amount---
-		for(int i=0;i<listOfBills.size();i++) {
-			if(listOfBills.get(i).getBillD().contains(checkbillID)) {
-				newAmount = listOfBills.get(i).getBillAmount()-amountPaid;
-				if(newAmount==0) {
-					listOfBills.get(i).setPaid(true);
-				}else {
-					listOfBills.get(i).setBillAmount(newAmount);
-					System.out.println("New Amount for billId "+ listOfBills.get(i).getBillD()+"= "+listOfBills.get(i).getBillAmount());
-				}
-			break;
-			}
-		}
-		
-	}
+//	public void printAllCustomers() {
+//		Iterator itr = custIDSet.iterator();
+//		while(itr.hasNext()) {
+//			System.out.println(custIDSet.toString());
+//		}	
+//		
+//	}
+//    public void updateBill(String checkbillID, double amountPaid) {		//---Update bill amount---
+//		for(int i=0;i<listOfBills.size();i++) {
+//			if(listOfBills.get(i).getBillD().contains(checkbillID)) {
+//				newAmount = listOfBills.get(i).getBillAmount()-amountPaid;
+//				if(newAmount==0) {
+//					listOfBills.get(i).setPaid(true);
+//				}else {
+//					listOfBills.get(i).setBillAmount(newAmount);
+//					System.out.println("New Amount for billId "+ listOfBills.get(i).getBillD()+"= "+listOfBills.get(i).getBillAmount());
+//				}
+//			break;
+//			}
+//		}
+//		
+//	}
 
       
-	public void customersFrom(List<Customer> setOfCustomers, String location) {
+	public void customersFromLocation(List<Customer> setOfCustomers, String location) {
 		
 		for(int i=0;i<setOfCustomers.size(); i++) {
 			System.out.println("Customers from "+location);

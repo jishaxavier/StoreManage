@@ -1,6 +1,7 @@
 package manageStore;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -16,6 +17,7 @@ public class CustomerOperations {
 	double amount;
 	private Address customerAddr;
     private Map<String, Customer> custMap = new HashMap<String, Customer>();
+    private List<Billing> billsList;
     
 	Set<String> custIDSet = new HashSet<String>();			//---List of customer id
 
@@ -56,8 +58,14 @@ public class CustomerOperations {
     
     public double totalAmountOwed(String custID) {							// ---- RETURNS TOTAL AMOUNT OWED ---
     	double totAmt=0.0;
-    	for (Map.Entry<String,Customer> element: custMap.entrySet()) {
-    		totAmt = totAmt + element.getValue().getBill().getBillAmount(); 	
+    	billsList = customer.getListOfBills(custID);
+    	System.out.println(billsList);
+    	for(String cust: custMap.keySet()) {
+    		if(cust == custID) {
+    			for(int i = 0;i<billsList.size(); i++) {
+    	    		totAmt = totAmt+ billsList.get(i).getBillAmount();
+    	    	}
+    		}
     	}
     	System.out.println("Total Amount owed: "+totAmt);
     	return totAmt;
@@ -83,6 +91,11 @@ public class CustomerOperations {
 		   return null;
 	}
 	
+    public void printAllCustomers() {
+    	
+    	System.out.println(Arrays.asList(custMap));
+    }
+    
 	public void billPaidCust() {
 		customer.getBill();;
 	}

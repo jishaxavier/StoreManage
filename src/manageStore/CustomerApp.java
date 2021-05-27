@@ -24,7 +24,8 @@ public class CustomerApp {
 		//String billID,double billAmt, String dateofPayment, Boolean paid
 		cc1.setBill(new Billing("B123", 102.35, "4/13/21", false));
 		cc1.setBill(new Billing("B124", 200.09, "4/22/21", false));
-			
+		cc2.setBill(new Billing("B223",236.00, "5/15/21", false));	
+		
 		//Added 3 customers
 		operations.addCustomer(cc1);
 		operations.addCustomer(cc2);
@@ -34,12 +35,13 @@ public class CustomerApp {
 		operations.addCustomerBill("c101", new Billing("B123", 102.35, "4/13/21", false));
 		operations.addCustomerBill("c101", new Billing("B124", 200.09, "4/22/21", false));
 		
-		System.out.println(operations.getBillAmount("c101", "B124"));
+		//operations.printAllCustomers();
+		//System.out.println(operations.getBillAmount("c101", "B124"));
+		System.out.println(operations.totalAmountOwed("c101"));
 		//Get Customers from Toronto
 			
-//		customersFrom(setOfCustomers,"Toronto");
+		//customersFrom(setOfCustomers,"Toronto");
 				
-		
 					
 	}
 
